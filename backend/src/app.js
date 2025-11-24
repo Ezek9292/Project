@@ -1,10 +1,11 @@
 import express from 'express';
+import userRoutes from './routes/user.route.js';
 
 const app = express(); //create an express app
 
 app.use(express.json()); //middleware to parse JSON request bodies
 
-import userRoutes from './routes/user.route.js';
+
 // import postRoutes from './routes/post.route.js';
 
 //route declaration
@@ -18,3 +19,5 @@ app.get('/', (req, res) => {
 });
 
 export default app;
+
+// console.log("LOADED ROUTES:", userRoutes);

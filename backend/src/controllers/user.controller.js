@@ -16,19 +16,20 @@ const registerUser = async (req, res) => {
             return res.status(409).json({ message: 'Username or email already exist' });
         }
         // create new user
-        // const newUser = new User({ username, password, email });
-        // await newUser.save(); 
+        const newUser = new User({ username, password, email: email.toLowerCase() });
+        await newUser.save(); 
 
-        const user = await User.create({ 
-            username, 
-            password, 
-            email: email.toLowerCase(),
-            loggedIn: false
-        });
-        res.status(201).json({ message: 'User registered successfully', user: { id: user._id, username: user.username, email: user.email } });
+        // const user = await User.create({ 
+        //     username, 
+        //     password, 
+        //     email: email.toLowerCase(),
+        //     loggedIn: false
+        // });
+        return res.status(201).json({ message: 'User registered successfully', user: { id: newUser._id, username: newUser.username, email: newUser.email } });
 
     } catch (error) {
-        res.status(500).json({ message: `internal server error: ${error.message}` });
+        console.error(error)
+        return res.status(500).json({ message: `there is an error here: ${error.message}`})
     }
 };
 
@@ -53,13 +54,30 @@ const loginUser = async (req, res) => {
         await user.save();
         res.status(200).json({ message: 'Login successful', user: { id: user._id, username: user.username, email: user.email } });
     } catch (error) {
-    console.error(error);   // show the error
     res.status(500).json({ message: "Server error", error: error.message });
     }
 
 }
 
+const logOutuser = async (req, res) => {
+    try {
+        const { email } = req.body;
+
+        const user = await User.findOne({
+            email
+        });
+        if (!user) return res.status(404).json({
+            message: "Logout succesful"
+        });
+    } catch (error) {
+        res.status(500).json({
+            message: "internal Sever Error", error
+        });
+    }
+}
+
 export {
     registerUser,
-    loginUser
+    loginUser,
+    logOutuser
 }
