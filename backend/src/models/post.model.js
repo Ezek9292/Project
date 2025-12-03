@@ -8,7 +8,7 @@ const postSchema = new Schema(
             trim: true,
         },
 
-        desciption: {
+        description: {
             type: String,
             required: true,
             trim: true
@@ -18,7 +18,7 @@ const postSchema = new Schema(
             type: Number,
             required: true,
             min: 1,
-            max: 20
+            max: 150
         }
     },
 
